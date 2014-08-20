@@ -1,0 +1,124 @@
+\documentclass[12pt]{amsart}
+\usepackage{todonotes}
+\usepackage{amssymb}
+
+\newtheorem{thm}{Theorem}
+\newtheorem{prop}{Proposition}
+\newtheorem{lem}{Lemma}
+\newtheorem{cor}{Corollary}
+
+\title{A Lazy person's approach to wavelet theory on manifolds}
+\author{Henry O. Jacobs and Ram Vasudevan}
+\date{18th of August, 2014}
+
+\begin{document}
+\maketitle
+
+Let $M$ be a manifold.
+We call a chart $\varphi:V \subset \mathbb{R}^n \to U \subset M$ a
+\emph{full-chart} if $U$ is dense in $M$.
+
+
+\begin{prop}
+If $M$ is compact then there exists a full chart.
+\end{prop}
+\begin{proof}
+Without loss of generality we will assume that $M$ is connected.
+If $M$ is not connected we may apply the following argument to each component.
+Equip $M$ with a Riemannian structure.
+We may then invoke Lemma 4.4 of \cite{Sakai1996}.
+This completes the proof, but we can provide details for the sake of 
+completeness (pun intended).
+For any $p \in M$ we can define the cut-locus by $C_p$ and the maximal open set $U_p \subset T_p M$ over which $\exp_p : T_p M \to M$ is injective.
+We see that $U = \exp_p(U_p)$ is dense in $M$.
+Upon choosing a basis, ${\bf e}_1,\dots,{\bf e}_n \in T_xM$,
+ we obtain a chart $\varphi: V \subset \mathbb{R}^n \to U \subset M$.
+Here $V$ is a star shaped subset of $\mathbb{R}^n$.
+In particular, $\varphi(x) = \exp_p ( x^i {\bf e}_i )$.
+\end{proof}
+
+Given a full-chart, $\varphi$, we can extend it to a surjective map $\bar{\varphi} : \bar{V} \to M$
+such that $\bar{\varphi}(x) = \varphi(x)$ when $x \in V$ and $\bar{\varphi}(x) = \lim_{i \to \infty} \varphi(x_i)$ if $x \in \partial V$ for an arbitrary sequence $\{ x_i \} \subset V$ such that $\lim_{i \to \infty} x_i = x$.
+The map $\bar{\varphi}$ is injective on $V$, but it is generally not injective on the boundary $\partial V$.
+Thus the equivalence relation,
+ $x \sim y \iff \bar{\varphi}(x) = \bar{\varphi}(y)$,
+ is typically not a simple equality.
+
+\begin{prop} \label{prop:manifold}
+  Given a manifold $M$ and a full chart $\varphi:V \to U$, the space $\bar{V} / \bar{\varphi}$ is diffeomorphic to $M$
+\end{prop}
+\begin{proof}
+  By construction $\bar{\varphi}$ is constant on each equivalence class,
+and thus induces a map from $\bar{V} /\bar{\varphi} \to M$.
+It is simple to verify this map is bijective.
+Thus $M$ and $\bar{V} / \bar{\varphi}$ are homeomorphic under the quotient topology.
+  In particular, the map $\bar{\varphi}$ creates a bijection between open sets in $M$ and open sets (in the quotient topology) on $\bar{V}$.
+  Thus $\bar{V}$ inherits the differential structure of $M$.
+\end{proof}
+
+\begin{cor} \label{cor:functions}
+  The ring of real-valued functions $C^k(M)$ is isomorphic to the subring
+  $\bar{\varphi}^* C^k(M) := \{ f \circ \bar{\varphi} \mid f \in C^k(M) \}
+  \subset C^k( \bar{V})$.
+\end{cor}
+
+The above proposition and its corollary are useful for our purposes because
+they bring functional analysis on a manifold $M$ to functional analysis on a subring of functions in a Euclidean domain.
+As much of the infrastructure for wavelets is built on Euclidean domains, we can hope to use these observations to use the infrastructure with only
+minor modification.
+This is most clearly described in the following examples.
+
+\subsection{The unit circle}
+Consider the unit-circle $S^1 = \{ e^{i \theta} \mid \theta \in [-\pi,\pi] \}$,
+with the full chart $\varphi( \theta ) = e^{i\theta}$ for $\theta \in (-\pi,\pi)$, obtained by choosing some branch of the logarithm map.
+The extension to $[-\pi,\pi]$ is obvious, and we can easily observe that $\bar{\varphi}(\pi) = \bar{\varphi}(-\pi)$, so that boundary points have been identified.
+If we denote the equivalence of $\pi$ with $-\pi$ by $\sim$, then proposition \ref{prop:manifold} says that $S^1$ is identical to $[-\pi,\pi] / \sim$.
+We also find $C^0(S^1)$ is identical to functions $f \in C^0( [\pi,\pi])$ such that $f(\pi) = f(-\pi)$.
+The space $C^1(S^1)$ is identical to functions $f \in C^1( [-\pi,\pi])$ such that $f(\pi) = f(-\pi)$ and $f'(\pi) = f'(-\pi)$.
+ We can construct wavelet basis for $S^1$ by wrapping functions on $[-\pi,\pi]$.
+
+
+\subsection{Spheres}
+Lets begin with $S^2$ using spherical coordinates $(\theta , \phi)$ on the open rectangle $V = (-\pi,\pi) \times (0,\pi)$.
+We can consider the full-chart
+\begin{align*}
+  \varphi(\theta,\phi) = \begin{pmatrix}
+    \cos(\theta) \sin(\phi) \\
+    \sin(\theta) \sin(\phi) \\
+    \cos(\phi)
+    \end{pmatrix}
+\end{align*}
+We see that the north and south poles are identified as single points because  $\bar{\varphi}( \theta , 0)$ is constant, as is $\bar{\varphi}(\theta, \pi)$.  Similarly, $\bar{\varphi}( \pi , \phi) = \bar{\varphi}( -\pi, \phi)$ for all $\phi \in (0,\pi)$.
+Let $W(S^1)$ be a wavelet basis for $S^1$ and let $W([0,\pi])$ be a wavelet basis for $[0,\pi]$ with vanishing boundary conditions.
+A $C^0$-wavelet basis for $S^2$ is given by
+\begin{align*}
+  W(S^2) = W(S^1) \otimes W([0,\pi]) + 1_{S^2} + \phi.
+\end{align*}
+To make something smoother is more involved, but can be done.
+
+Virtually the same construction using $3$-dimensional spherical coordinates would allow us to handle the $3$-sphere.
+
+\subsection{Projective spaces}
+
+% In particular, the subring $\bar{\varphi}^*C^k(M)$ can be viewed as a direct sum of two space, the first of which is a standard space handled by wavelets.
+
+% \begin{prop}
+%   Let $M$ be a manifold with a full-chart, $\varphi:V \to U$
+%   and let $f \in C^0( \partial V) \mapsto f^\uparrow \in C^0( \bar{V})$
+%   be an extension operator.
+%   Then any $f \in \bar{\varphi}^*C^0(M)$ can be uniquely decomposed as
+%   \begin{align*}
+%     f = f_V + f^{\uparrow}_{\partial V}
+%   \end{align*}
+%   Where $f \in C^0( \bar{V})$ vanishes at the boundary,
+%   and $f_{\partial V} \in C^0( \partial V)$ is constant on level-sets of $\bar{\varphi}$.
+% \end{prop}
+
+% To describe $C^1$-functions in this way requires a little more care.
+% One route is to describe the tangent bundle $TM$ first,
+% and define $C^1$-functions by how they act on vectors.
+
+\bibliographystyle{amsalpha}
+\bibliography{/Users/hoj201/Dropbox/hoj_2014.bib}
+
+\end{document}
